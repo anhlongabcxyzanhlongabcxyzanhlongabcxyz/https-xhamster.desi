@@ -64,6 +64,7 @@ local C1 = C("ScrollingFrame", {Size = UDim2.new(1, 0, 1, 0), BackgroundTranspar
 
 SB(C1, "cài đặt", 1, function() Cnt.Visible, IP.Visible, SP.Visible = false, false, true end)
 SB(C1, "thông tin", 2, function() Cnt.Visible, SP.Visible, IP.Visible = false, false, true end)
+
 task.defer(function() pcall(function() C1.CanvasSize = UDim2.new(0, 0, 0, C1.UIListLayout.AbsoluteContentSize.Y + 12) end) end)
 
 local function CH(p, t, cb)
@@ -89,6 +90,22 @@ local function CR(p, y, t)
 	local sm = C("Frame", {Parent = st, Size = UDim2.new(0, 18, 0, 18), Position = UDim2.new(0, 2, 0.5, -9), BackgroundColor3 = Color3.fromRGB(255, 255, 255), ZIndex = 8}, {K(9)})
 	return st, sm
 end
+
+local COLLECT = false
+local ST3, SM3 = CR(SP, 135, "Thu gom")
+
+ST3.MouseButton1Click:Connect(function()
+    COLLECT = not COLLECT
+    T:Create(SM3, TweenInfo.new(0.2), {
+        Position = COLLECT and UDim2.new(1, -20, 0.5, -9)
+            or UDim2.new(0, 2, 0.5, -9)
+    }):Play()
+    T:Create(ST3, TweenInfo.new(0.2), {
+        BackgroundColor3 = COLLECT
+            and Color3.fromRGB(46, 204, 113)
+            or Color3.fromRGB(60, 65, 80)
+    }):Play()
+end)
 
 local ST1, SM1 = CR(SP, 45, "Anti AFK")
 ST1.MouseButton1Click:Connect(function()
