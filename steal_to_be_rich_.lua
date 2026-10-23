@@ -143,13 +143,7 @@ local processingIds = {}
                             local ok = pcall(function()
                                 StoreEvent:InvokeServer(uniqueId, true)
                             end)
-                            -- Cho phép thử lại nếu lệnh lỗi; nếu thành công thì tránh gửi lặp.
-                            if not ok then processingIds[uniqueId] = nil end
-                        end)
-                    end
-                end
-            end
-        end
+                        end
         task.wait(0.75)
     end
 end)
