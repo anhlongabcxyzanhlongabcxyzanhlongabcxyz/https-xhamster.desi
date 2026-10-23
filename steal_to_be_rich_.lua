@@ -144,14 +144,14 @@ task.spawn(function()
                     if not CA then break end
                     local id = item:GetAttribute("UniqueId")
                     if id and not processingIds[id] then
-                        processingIds[id] = true
-                        task.spawn(function()
-                            local ok = pcall(function()
-                                StoreEvent:InvokeServer(id, true)
-                            end)
-                            if not ok then processingIds[id] = nil end
-                        end)
-                    end
+    processingIds[id] = true
+    task.spawn(function()
+        local ok = pcall(function()
+            StoreEvent:InvokeServer(id, true)
+        end)
+        processingIds[id] = nil
+    end)
+						end
                 end
             end
         end
