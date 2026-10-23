@@ -143,7 +143,6 @@ local processingIds = {}
                             local ok = pcall(function()
                                 StoreEvent:InvokeServer(uniqueId, true)
                             end)
-                        end
         task.wait(0.75)
     end
 end)
