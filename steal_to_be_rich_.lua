@@ -117,45 +117,45 @@ end)
 
 local ST2, SM2 = CR(SP, 90, "ESP Player")
 local ST3, SM3 = CR(RP, 82, "Nhặt rác", 210)
-ST3.MouseButton1Click:Connect(function()
-    CA = not CA
-    T:Create(SM3, TweenInfo.new(0.2), {Position = CA and UDim2.new(1, -20, 0.5, -9) or UDim2.new(0, 2, 0.5, -9)}):Play()
-    T:Create(ST3, TweenInfo.new(0.2), {BackgroundColor3 = CA and Color3.fromRGB(46, 204, 113) or Color3.fromRGB(60, 65, 80)}):Play()
-end)
-
--- Nhặt rác liên tục khi bật; tắt nút sẽ dừng quét.
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local StoreEvent = ReplicatedStorage:WaitForChild("Network"):WaitForChild("Items"):WaitForChild("Store")
 local processingIds = {}
 
- task.spawn(function()
+CA = false
+ST3.Active, ST3.Visible = true, true
+
+ST3.MouseButton1Click:Connect(function()
+    CA = not CA
+    T:Create(SM3, TweenInfo.new(.2), {
+        Position = CA and UDim2.new(1,-20,.5,-9) or UDim2.new(0,2,.5,-9)
+    }):Play()
+    T:Create(ST3, TweenInfo.new(.2), {
+        BackgroundColor3 = CA and Color3.fromRGB(46,204,113) or Color3.fromRGB(60,65,80)
+    }):Play()
+end)
+
+task.spawn(function()
     while SG.Parent do
         if CA then
-            local debris = Workspace:FindFirstChild("Debris")
-            local folder = debris and debris:FindFirstChild("Items")
-
-            if folder then
-                for _, item in ipairs(folder:GetChildren()) do
+            local d = Workspace:FindFirstChild("Debris")
+            local f = d and d:FindFirstChild("Items")
+            if f then
+                for _, item in ipairs(f:GetChildren()) do
                     if not CA then break end
-
                     local id = item:GetAttribute("UniqueId")
                     if id and not processingIds[id] then
                         processingIds[id] = true
-
                         task.spawn(function()
                             local ok = pcall(function()
                                 StoreEvent:InvokeServer(id, true)
                             end)
-
-                            if not ok then
-                                processingIds[id] = nil
-                            end
+                            if not ok then processingIds[id] = nil end
                         end)
                     end
                 end
             end
         end
-        task.wait(0.75)
+        task.wait(.75)
     end
 end)
 				
