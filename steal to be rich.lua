@@ -91,21 +91,6 @@ local function CR(p, y, t)
 	return st, sm
 end
 
-local COLLECT = false
-local ST3, SM3 = CR(SP, 135, "Thu gom")
-
-ST3.MouseButton1Click:Connect(function()
-    COLLECT = not COLLECT
-    T:Create(SM3, TweenInfo.new(0.2), {
-        Position = COLLECT and UDim2.new(1, -20, 0.5, -9)
-            or UDim2.new(0, 2, 0.5, -9)
-    }):Play()
-    T:Create(ST3, TweenInfo.new(0.2), {
-        BackgroundColor3 = COLLECT
-            and Color3.fromRGB(46, 204, 113)
-            or Color3.fromRGB(60, 65, 80)
-    }):Play()
-end)
 
 local ST1, SM1 = CR(SP, 45, "Anti AFK")
 ST1.MouseButton1Click:Connect(function()
