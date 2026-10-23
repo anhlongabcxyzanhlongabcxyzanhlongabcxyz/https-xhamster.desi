@@ -141,12 +141,11 @@ local processingIds = {}
                         processingIds[uniqueId] = true
                         task.spawn(function()
                             local ok = pcall(function()
-                                StoreEvent:InvokeServer(uniqueId, true)
-                            end)
-        task.wait(0.75)
-    end
-end)
-
+                                StoreEvent:InvokeServer(uniqueId, true)               
+			end
+		end
+	end)
+				
 local function ClearESP(char)
 	if not char then return end
 	local h = char:FindFirstChild("CustomESP_HL")
