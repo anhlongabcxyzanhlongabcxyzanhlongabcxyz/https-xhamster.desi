@@ -133,18 +133,31 @@ local processingIds = {}
         if CA then
             local debris = Workspace:FindFirstChild("Debris")
             local folder = debris and debris:FindFirstChild("Items")
+
             if folder then
                 for _, item in ipairs(folder:GetChildren()) do
                     if not CA then break end
-                    local uniqueId = item:GetAttribute("UniqueId")
-                    if uniqueId and not processingIds[uniqueId] then
-                        processingIds[uniqueId] = true
+
+                    local id = item:GetAttribute("UniqueId")
+                    if id and not processingIds[id] then
+                        processingIds[id] = true
+
                         task.spawn(function()
                             local ok = pcall(function()
-                                StoreEvent:InvokeServer(uniqueId, true)               
-			end
-		end
-	end)
+                                StoreEvent:InvokeServer(id, true)
+                            end)
+
+                            if not ok then
+                                processingIds[id] = nil
+                            end
+                        end)
+                    end
+                end
+            end
+        end
+        task.wait(0.75)
+    end
+end)
 				
 local function ClearESP(char)
 	if not char then return end
